@@ -29,12 +29,10 @@
       }
 
       try {
-        const res = await fetch(`https://gestor-narosweb.weaviate.network/v1/objects/MemoriaGlobal/${uuid}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': apikey,
-            'Content-Type': 'application/json'
-          }
+        const res = await fetch("/deletar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ uuid, apikey })
         });
 
         const texto = await res.text();
