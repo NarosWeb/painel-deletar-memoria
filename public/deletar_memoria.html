@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Deletar Memória - Weaviate</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+  <h2>🧠 Deletar memória no Weaviate</h2>
+
+  <label for="uuid">UUID da Memória:</label><br>
+  <input type="text" id="uuid" style="width: 100%; padding: 8px;"><br><br>
+
+  <label for="apikey">API Key (Bearer):</label><br>
+  <input type="text" id="apikey" style="width: 100%; padding: 8px;"><br><br>
+
+  <button onclick="deletarMemoria()" style="padding: 10px 20px; font-weight: bold;">🗑️ Deletar</button>
+
+  <pre id="resposta" style="margin-top: 20px; background: #f4f4f4; padding: 15px;"></pre>
+
+  <script>
+    async function deletarMemoria() {
+      const uuid = document.getElementById('uuid').value.trim();
+      const apikey = document.getElementById('apikey').value.trim();
+      const resposta = document.getElementById('resposta');
+
+      if (!uuid || !apikey) {
+        resposta.textContent = "⚠️ Preencha todos os campos.";
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://gestor-narosweb.weaviate.network/v1/objects/MemoriaGlobal/${uuid}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': apikey,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const texto = await res.text();
+        resposta.textContent = `✅ Status: ${res.status}\n\n${texto}`;
+      } catch (err) {
+        resposta.textContent = `❌ Erro: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>

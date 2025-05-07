@@ -1,0 +1,12 @@
+{
+  "name": "painel-deletar-memoria",
+  "version": "1.0.0",
+  "description": "Painel para deletar memórias do Weaviate manualmente",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
