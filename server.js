@@ -1,8 +1,7 @@
 const express = require('express');
 const path = require('path');
-const app = express();
-const fetch = require('node-fetch');
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,19 +13,22 @@ app.get('/', (req, res) => {
 
 app.post('/deletar', async (req, res) => {
   const { uuid, apikey } = req.body;
-
   if (!uuid || !apikey) {
     return res.status(400).json({ error: 'UUID ou API Key ausente.' });
   }
 
   try {
-    const resposta = await fetch(`https://gestor-narosweb.weaviate.network/v1/objects/MemoriaGlobal/${uuid}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': apikey,
-        'Content-Type': 'application/json'
+    // fetch global do Node.js 18+
+    const resposta = await fetch(
+      `https://gestor-narosweb.weaviate.network/v1/objects/MemoriaGlobal/${uuid}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Authorization': apikey,
+          'Content-Type': 'application/json',
+        },
       }
-    });
+    );
 
     const resultado = await resposta.text();
     res.status(resposta.status).send(resultado);
